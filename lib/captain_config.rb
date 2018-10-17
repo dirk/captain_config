@@ -6,4 +6,6 @@ module CaptainConfig
 
   autoload :BaseConfig, 'captain_config/models/base_config'
   autoload :BooleanConfig, 'captain_config/models/boolean_config'
+  autoload :IntegerConfig, 'captain_config/models/integer_config'
+  autoload :StringConfig, 'captain_config/models/string_config'
 end
