@@ -1,3 +1,5 @@
+require 'captain_config/models/base_config'
+
 class CaptainConfig::BooleanConfig < CaptainConfig::BaseConfig
   def value
     case self.text

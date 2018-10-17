@@ -1,3 +1,5 @@
+require 'captain_config/models/base_config'
+
 class CaptainConfig::StringConfig < CaptainConfig::BaseConfig
   def value
     self.text
