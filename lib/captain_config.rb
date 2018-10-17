@@ -1,11 +1,17 @@
+require 'active_support/dependencies/autoload'
+
 require 'captain_config/version'
 
 module CaptainConfig
-  autoload :Service, 'captain_config/service'
-  autoload :ConfiguredEntry, 'captain_config/configured_entry'
+  extend ActiveSupport::Autoload
 
-  autoload :BaseConfig, 'captain_config/models/base_config'
-  autoload :BooleanConfig, 'captain_config/models/boolean_config'
-  autoload :IntegerConfig, 'captain_config/models/integer_config'
-  autoload :StringConfig, 'captain_config/models/string_config'
+  autoload :Service
+  autoload :ConfiguredEntry
+
+  autoload_under 'models' do
+    autoload :BaseConfig
+    autoload :BooleanConfig
+    autoload :IntegerConfig
+    autoload :StringConfig
+  end
 end

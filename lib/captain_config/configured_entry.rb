@@ -1,6 +1,3 @@
-require 'active_model'
-require 'active_support/concern'
-
 class CaptainConfig::ConfiguredEntry
   attr_reader :key
   # Class of the model (eg. `CaptainConfig::BooleanConfig`).

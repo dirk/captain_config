@@ -1,5 +1,7 @@
 class CaptainConfig::Service
-  autoload :DSL, "captain_config/service/dsl"
+  extend ActiveSupport::Autoload
+
+  autoload :DSL
 
   # The statically-defined entries that this service should support.
   attr_reader :configured_entries
