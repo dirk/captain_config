@@ -7,16 +7,41 @@ class CaptainConfig::Service
   # The keys and values read from the database (or defaults).
   attr_reader :configs
 
-  def initialize(&block)
+  def initialize(load_after_initialize: true, &block)
     @configured_entries = {}
     @configs = nil
 
     DSL.new(self).instance_eval(&block)
+
+    # Make the service immediately available after it's declared.
+    load if load_after_initialize
   end
 
   def <<(configured_entry)
     @configured_entries[configured_entry.key] = configured_entry
   end
+
+  def get(key)
+    assert_loaded!
+
+    configs.fetch key
+  end
+
+  def set(key, new_value)
+    assert_loaded!
+
+    record = configured_entries.fetch(key).model.find_or_create_by!(key: key)
+    record.value = new_value
+    record.save!
+
+    # Read the value back out of the record because the model/record
+    # are authoritative.
+    store[key] = record.value
+    new_value
+  end
+
+  alias_method :[], :get
+  alias_method :[]=, :set
 
   def loaded?
     !configs.nil?
@@ -54,5 +79,11 @@ class CaptainConfig::Service
     end
 
     @configs = new_configs
+  end
+
+  private
+
+  def assert_loaded!
+    raise 'Not loaded' unless loaded?
   end
 end
