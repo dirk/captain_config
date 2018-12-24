@@ -11,11 +11,19 @@ class CaptainConfig::Service
   # The keys and values read from the database (or defaults).
   attr_reader :configs
 
+  # Used by middlewares to automatically find the configuration service.
+  cattr_accessor :last_created_service,
+    instance_reader: false,
+    instance_writer: false
+
   def initialize(load_after_initialize: true, &block)
     @configured_entries = {}
     @configs = Concurrent::ThreadLocalVar.new(nil)
 
     DSL.new(self).instance_eval(&block)
+
+    # The last service to be initialized will always win.
+    self.class.last_created_service = self
 
     # Make the service immediately available after it's declared.
     load if load_after_initialize
