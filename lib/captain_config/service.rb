@@ -1,3 +1,5 @@
+require 'concurrent/atomic/thread_local_var'
+
 class CaptainConfig::Service
   extend ActiveSupport::Autoload
 
@@ -11,7 +13,7 @@ class CaptainConfig::Service
 
   def initialize(load_after_initialize: true, &block)
     @configured_entries = {}
-    @configs = nil
+    @configs = Concurrent::ThreadLocalVar.new(nil)
 
     DSL.new(self).instance_eval(&block)
 
@@ -26,7 +28,7 @@ class CaptainConfig::Service
   def get(key)
     assert_loaded!
 
-    configs.fetch key
+    configs.value.fetch key
   end
 
   def set(key, new_value)
@@ -37,16 +39,17 @@ class CaptainConfig::Service
     record.save!
 
     # Read the value back out of the record because the model/record
-    # are authoritative.
-    store[key] = record.value
-    new_value
+    # is authoritative.
+    authoritative_new_value = record.value
+    configs.value[key] = authoritative_new_value
+    authoritative_new_value
   end
 
   alias_method :[], :get
   alias_method :[]=, :set
 
   def loaded?
-    !configs.nil?
+    !configs.value.nil?
   end
 
   # Load new values from the database (or default values from the
@@ -80,7 +83,7 @@ class CaptainConfig::Service
       new_configs[key] = value
     end
 
-    @configs = new_configs
+    @configs.value = new_configs
   end
 
   private
