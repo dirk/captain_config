@@ -31,11 +31,11 @@ class CaptainConfig::Service
     configs.value.fetch key
   end
 
-  def set(key, new_value)
+  def set(key, new_value, coerce: false)
     assert_loaded!
 
     record = configured_entries.fetch(key).model.find_or_create_by!(key: key)
-    record.value = new_value
+    record.value = coerce ? record.class.coerce(new_value) : new_value
     record.save!
 
     # Read the value back out of the record because the model/record
@@ -67,8 +67,8 @@ class CaptainConfig::Service
 
       value = if record
         # Check that it's the type we're expecting.
-        expected = record.klass
-        actual = configured_entry.model
+        actual = record.class
+        expected = configured_entry.model
         if expected != actual
           raise(
             "Error loading #{key}: record class from database doesn't match " \
