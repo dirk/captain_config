@@ -1,7 +1,11 @@
 require 'bundler/setup'
+require 'httparty'
 require 'pry'
+require 'wait_for_it'
 
 require 'captain_config'
+
+require_relative 'support/shell'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
