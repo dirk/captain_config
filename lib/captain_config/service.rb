@@ -58,9 +58,9 @@ class CaptainConfig::Service
     new_configs = {}
 
     records = CaptainConfig::BaseConfig
-      .where(keys: configured_entries.keys)
+      .where(key: configured_entries.keys)
       .map { |record| [record.key.to_sym, record] }
-      .to_hash
+      .to_h
 
     configured_entries.each do |key, configured_entry|
       record = records[key]
