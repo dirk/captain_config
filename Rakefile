@@ -2,32 +2,30 @@ require 'bundler/gem_tasks'
 require 'active_support/core_ext/string'
 require 'rspec/core/rake_task'
 
+require_relative 'spec/support/shell'
+
 RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
 
 namespace :spec do
   namespace :setup do
-    def shell(command)
-      system({ 'BUNDLE_GEMFILE' => nil }, command)
-      if $?.exitstatus != 0
-        $stderr.puts "Command failed: #{command}"
-        exit $?.exitstatus
-      end
-    end
+    include CaptainConfig::Shell
 
     root = 'spec/sample'
 
     gemfile = "#{root}/Gemfile"
     controller = "#{root}/app/controllers/configs_controller.rb"
-    routes = "#{root}/config/routes.rb"
     initializer = "#{root}/config/initializers/config_service.rb"
+    rackup = "#{root}/config.ru"
+    routes = "#{root}/config/routes.rb"
 
     desc 'Set up sample application'
     task sample: [
       gemfile,
       controller,
       initializer,
+      rackup,
       routes,
     ]
 
@@ -66,20 +64,23 @@ namespace :spec do
       shell 'sh -c "cd spec/sample && ' \
         'bundle install && ' \
         'rails generate captain_config && ' \
-        'rake db:migrate' \
+        'rake db:migrate && ' \
+        'rm config.ru config/routes.rb' \
         '"'
     end
 
     file controller do |task|
       source = <<-RUBY
         class ConfigsController < ApplicationController
+          skip_before_action :verify_authenticity_token
+
           def show
-            render text: CONFIG[params[:id].to_sym]
+            render plain: CONFIG[params[:id].to_sym]
           end
 
           def update
-            new_value = (CONFIG[params[:id].to_sym] = params[:value])
-            render text: new_value
+            new_value = CONFIG.set(params[:id].to_sym, params[:value], coerce: true)
+            render plain: new_value
           end
         end
       RUBY
@@ -91,6 +92,17 @@ namespace :spec do
         CONFIG = CaptainConfig::Service.new do
           some_boolean :boolean, default: false
         end
+      RUBY
+      File.write task.name, source.strip_heredoc
+    end
+
+    file rackup do |task|
+      source = <<-RUBY
+        require_relative 'config/environment'
+
+        use CaptainConfig::PumaMiddleware
+
+        run Rails.application
       RUBY
       File.write task.name, source.strip_heredoc
     end
