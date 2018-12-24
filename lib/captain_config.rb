@@ -5,8 +5,12 @@ require 'captain_config/version'
 module CaptainConfig
   extend ActiveSupport::Autoload
 
-  autoload :Service
   autoload :ConfiguredEntry
+  autoload :Service
+
+  autoload_under 'middlewares' do
+    autoload :PumaMiddleware
+  end
 
   autoload_under 'models' do
     autoload :BaseConfig

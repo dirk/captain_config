@@ -1,3 +1,4 @@
+require 'active_support/core_ext/module/attribute_accessors'
 require 'concurrent/atomic/thread_local_var'
 
 class CaptainConfig::Service
