@@ -1,8 +1,8 @@
 class CreateCaptainConfigs < ActiveRecord::Migration[<%= ActiveRecord::Migration.current_version %>]
   def change
     create_table :captain_configs do |t|
-      t.string :type
-      t.string :key
+      t.string :type, null: false
+      t.string :key, null: false
       t.string :text
 
       t.timestamps
