@@ -13,6 +13,10 @@ class CaptainConfig::Service::DSL < ActiveSupport::ProxyObject
     model = case type
     when :boolean
       ::CaptainConfig::BooleanConfig
+    when :integer
+      ::CaptainConfig::IntegerConfig
+    when :string
+      ::CaptainConfig::StringConfig
     else
       raise ArgumentError.new("Unrecognized type: #{type.inspect}")
     end
