@@ -17,4 +17,32 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.before :suite do
+    tmp = File.expand_path('../../tmp', __FILE__)
+    FileUtils.makedirs tmp
+
+    database = File.join(tmp, 'test.sqlite3')
+    FileUtils.safe_unlink database
+
+    CaptainConfig::BaseConfig.tap do |base|
+      base.establish_connection(
+        adapter: 'sqlite3',
+        database: database,
+      )
+
+      # Easier than bothering with migrations (and migrations are already
+      # checked by the integration setup Rakefile and tests).
+      base.connection.execute <<-SQL
+        CREATE TABLE 'captain_configs' (
+          'id' integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+          'type' varchar NOT NULL,
+          'key' varchar NOT NULL,
+          'text' varchar,
+          'created_at' datetime NOT NULL,
+          'updated_at' datetime NOT NULL
+        );
+      SQL
+    end
+  end
 end
