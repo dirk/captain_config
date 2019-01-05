@@ -1,8 +1,8 @@
 require 'active_support/dependencies/autoload'
 
-require 'captain_config/version'
+require 'config_captain/version'
 
-module CaptainConfig
+module ConfigCaptain
   extend ActiveSupport::Autoload
 
   autoload :ConfiguredEntry

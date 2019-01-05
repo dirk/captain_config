@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 RSpec.describe 'Integration' do
-  include CaptainConfig::Shell
+  include ConfigCaptain::Shell
 
   around(:all) do |all|
     Dir.chdir('spec/sample') do
-      shell 'sqlite3 db/development.sqlite3 "DELETE FROM captain_configs;"'
+      shell 'sqlite3 db/development.sqlite3 "DELETE FROM captains_configs;"'
 
       WaitForIt.new(
         'bundle exec puma',

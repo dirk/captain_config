@@ -1,6 +1,6 @@
 # Using the `rack.after_reply` hook provided by Puma for running code after
 # the response has been sent to the client.
-class CaptainConfig::PumaMiddleware
+class ConfigCaptain::PumaMiddleware
   RACK_AFTER_REPLY = ::Puma::Const::RACK_AFTER_REPLY
 
   def initialize(app)
@@ -8,7 +8,7 @@ class CaptainConfig::PumaMiddleware
   end
 
   def call(env)
-    service = CaptainConfig::Service.last_created_service
+    service = ConfigCaptain::Service.last_created_service
 
     if service
       # Load if it hasn't already been loaded (eg. first request).

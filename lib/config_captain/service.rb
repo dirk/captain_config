@@ -1,7 +1,7 @@
 require 'active_support/core_ext/module/attribute_accessors'
 require 'concurrent/atomic/thread_local_var'
 
-class CaptainConfig::Service
+class ConfigCaptain::Service
   extend ActiveSupport::Autoload
 
   autoload :DSL
@@ -66,7 +66,7 @@ class CaptainConfig::Service
   def load
     new_configs = {}
 
-    records = CaptainConfig::BaseConfig
+    records = ConfigCaptain::BaseConfig
       .where(key: configured_entries.keys)
       .map { |record| [record.key.to_sym, record] }
       .to_h

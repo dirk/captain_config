@@ -1,6 +1,6 @@
-class CaptainConfig::ConfiguredEntry
+class ConfigCaptain::ConfiguredEntry
   attr_reader :key
-  # Class of the model (eg. `CaptainConfig::BooleanConfig`).
+  # Class of the model (eg. `ConfigCaptain::BooleanConfig`).
   attr_reader :model
   attr_accessor :default
 

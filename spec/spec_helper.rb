@@ -3,7 +3,7 @@ require 'httparty'
 require 'pry'
 require 'wait_for_it'
 
-require 'captain_config'
+require 'config_captain'
 
 require_relative 'support/shell'
 
@@ -25,7 +25,7 @@ RSpec.configure do |config|
     database = File.join(tmp, 'test.sqlite3')
     FileUtils.safe_unlink database
 
-    CaptainConfig::BaseConfig.tap do |base|
+    ConfigCaptain::BaseConfig.tap do |base|
       base.establish_connection(
         adapter: 'sqlite3',
         database: database,
@@ -34,7 +34,7 @@ RSpec.configure do |config|
       # Easier than bothering with migrations (and migrations are already
       # checked by the integration setup Rakefile and tests).
       base.connection.execute <<-SQL
-        CREATE TABLE 'captain_configs' (
+        CREATE TABLE 'captains_configs' (
           'id' integer PRIMARY KEY AUTOINCREMENT NOT NULL,
           'type' varchar NOT NULL,
           'key' varchar NOT NULL,

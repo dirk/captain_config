@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe CaptainConfig::Service::DSL do
+RSpec.describe ConfigCaptain::Service::DSL do
   def factory(&block)
-    CaptainConfig::Service.new(load_after_initialize: false, &block)
+    ConfigCaptain::Service.new(load_after_initialize: false, &block)
   end
 
   describe 'with a boolean' do
@@ -13,7 +13,7 @@ RSpec.describe CaptainConfig::Service::DSL do
 
       entry = service.configured_entries.fetch :some_boolean
       expect(entry.key).to eq :some_boolean
-      expect(entry.model).to eq CaptainConfig::BooleanConfig
+      expect(entry.model).to eq ConfigCaptain::BooleanConfig
       expect(entry.default).to eq nil
     end
 
@@ -24,7 +24,7 @@ RSpec.describe CaptainConfig::Service::DSL do
 
       entry = service.configured_entries.fetch :some_boolean
       expect(entry.key).to eq :some_boolean
-      expect(entry.model).to eq CaptainConfig::BooleanConfig
+      expect(entry.model).to eq ConfigCaptain::BooleanConfig
       expect(entry.default).to eq true
     end
   end
@@ -37,7 +37,7 @@ RSpec.describe CaptainConfig::Service::DSL do
 
       entry = service.configured_entries.fetch :some_integer
       expect(entry.key).to eq :some_integer
-      expect(entry.model).to eq CaptainConfig::IntegerConfig
+      expect(entry.model).to eq ConfigCaptain::IntegerConfig
       expect(entry.default).to eq nil
     end
 
@@ -48,7 +48,7 @@ RSpec.describe CaptainConfig::Service::DSL do
 
       entry = service.configured_entries.fetch :some_integer
       expect(entry.key).to eq :some_integer
-      expect(entry.model).to eq CaptainConfig::IntegerConfig
+      expect(entry.model).to eq ConfigCaptain::IntegerConfig
       expect(entry.default).to eq 123
     end
   end
@@ -61,7 +61,7 @@ RSpec.describe CaptainConfig::Service::DSL do
 
       entry = service.configured_entries.fetch :some_string
       expect(entry.key).to eq :some_string
-      expect(entry.model).to eq CaptainConfig::StringConfig
+      expect(entry.model).to eq ConfigCaptain::StringConfig
       expect(entry.default).to eq nil
     end
 
@@ -72,7 +72,7 @@ RSpec.describe CaptainConfig::Service::DSL do
 
       entry = service.configured_entries.fetch :some_string
       expect(entry.key).to eq :some_string
-      expect(entry.model).to eq CaptainConfig::StringConfig
+      expect(entry.model).to eq ConfigCaptain::StringConfig
       expect(entry.default).to eq 'foobar'
     end
   end

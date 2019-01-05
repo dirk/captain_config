@@ -1,6 +1,6 @@
-require 'captain_config/models/base_config'
+require 'config_captain/models/base_config'
 
-class CaptainConfig::StringConfig < CaptainConfig::BaseConfig
+class ConfigCaptain::StringConfig < ConfigCaptain::BaseConfig
   def value
     self.text
   end

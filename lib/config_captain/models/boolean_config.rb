@@ -1,6 +1,6 @@
-require 'captain_config/models/base_config'
+require 'config_captain/models/base_config'
 
-class CaptainConfig::BooleanConfig < CaptainConfig::BaseConfig
+class ConfigCaptain::BooleanConfig < ConfigCaptain::BaseConfig
   def value
     case self.text
     when 'true'
