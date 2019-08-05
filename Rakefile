@@ -40,7 +40,7 @@ namespace :spec do
     file gemfile do
       Rake::Task['spec:setup:sample:clean'].invoke
 
-      unsets = 'unset BUNDLE_GEMFILE BUNDLE_PATH GEM_HOME GEM_PATH RUBYOPT'
+      unsets = "unset #{CaptainConfig::Shell::UNSET_VARIABLES.join(' ')}"
 
       shell 'sh -c "' \
         "#{unsets} && " \
