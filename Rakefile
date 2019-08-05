@@ -42,6 +42,8 @@ namespace :spec do
 
       unsets = "unset #{CaptainConfig::Shell::UNSET_VARIABLES.join(' ')}"
 
+      shell "sh -c \"#{unsets} && gem install rails\""
+
       shell 'sh -c "' \
         "#{unsets} && " \
         'bundle exec rails new spec/sample ' \
@@ -68,8 +70,6 @@ namespace :spec do
       end
 
       [
-        'printenv | sort',
-        'cat Gemfile',
         'bundle install --jobs=3 --retry=3',
         'bundle exec rails generate captain_config',
         'RAILS_ENV=development bundle exec rake db:migrate',

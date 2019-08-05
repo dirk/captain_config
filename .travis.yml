@@ -4,8 +4,6 @@ cache: bundler
 rvm:
   - 2.5.3
 
-before_install: gem install rails
-
 before_script: bundle exec rake spec:setup:sample
 
 script: bundle exec rspec
