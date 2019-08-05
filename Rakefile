@@ -40,7 +40,7 @@ namespace :spec do
     file gemfile do
       Rake::Task['spec:setup:sample:clean'].invoke
 
-      unsets = 'unset BUNDLE_GEMFILE && unset BUNDLE_PATH && unset GEM_HOME && unset GEM_PATH'
+      unsets = 'unset BUNDLE_GEMFILE BUNDLE_PATH GEM_HOME'
 
       shell 'sh -c "' \
         "#{unsets} && " \
@@ -69,7 +69,8 @@ namespace :spec do
 
       [
         'printenv | sort',
-        'bundle install',
+        'cat Gemfile',
+        'bundle install --jobs=3 --retry=3',
         'bundle exec rails generate captain_config',
         'bundle exec rake db:migrate',
         'rm config.ru config/routes.rb',
