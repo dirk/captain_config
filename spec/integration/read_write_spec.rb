@@ -7,12 +7,19 @@ RSpec.describe 'Integration' do
     Dir.chdir('spec/sample') do
       shell 'sqlite3 db/development.sqlite3 "DELETE FROM captain_configs;"'
 
+      env = {
+        BUNDLE_GEMFILE: nil,
+        RAILS_ENV: 'development',
+      }
+      if ENV['CI'] == 'true'
+        env[:BUNDLE_PATH] = nil
+        env[:GEM_HOME] = nil
+        env[:GEM_PATH] = nil
+      end
+
       WaitForIt.new(
         'bundle exec puma',
-        env: {
-          BUNDLE_GEMFILE: nil,
-          RAILS_ENV: 'development',
-        },
+        env: env,
         wait_for: 'Listening on',
       ) do
         all.run
