@@ -40,7 +40,7 @@ namespace :spec do
     file gemfile do
       Rake::Task['spec:setup:sample:clean'].invoke
 
-      unsets = 'unset BUNDLE_GEMFILE && unset BUNDLE_PATH'
+      unsets = 'unset BUNDLE_GEMFILE && unset BUNDLE_PATH && unset GEM_PATH'
 
       shell 'sh -c "' \
         "#{unsets} && " \
