@@ -61,12 +61,10 @@ namespace :spec do
         file.write "gem 'captain_config', path: '../..'\n"
       end
 
-      shell 'sh -c "cd spec/sample && ' \
-        'bundle install && ' \
-        'rails generate captain_config && ' \
-        'bin/rake db:migrate && ' \
-        'rm config.ru config/routes.rb' \
-        '"'
+      shell 'sh -c "cd spec/sample && bundle install"'
+      shell 'sh -c "cd spec/sample && bundle exec rails generate captain_config"'
+      shell 'sh -c "cd spec/sample && bundle exec rake db:migrate"'
+      shell 'sh -c "cd spec/sample && rm config.ru config/routes.rb"'
     end
 
     file controller do |task|
