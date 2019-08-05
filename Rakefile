@@ -40,7 +40,20 @@ namespace :spec do
     file gemfile do
       Rake::Task['spec:setup:sample:clean'].invoke
 
-      shell 'bundle exec rails new spec/sample ' \
+      unsets = "unset #{CaptainConfig::Shell::UNSET_VARIABLES.join(' ')}"
+      rails_version = '5.2.3'
+
+      shell 'sh -c "' \
+        "#{unsets} && " \
+        'gem install rails ' \
+        "--version #{rails_version} " \
+        "--no-rdoc " \
+        "--no-ri " \
+        '"'
+
+      shell 'sh -c "' \
+        "#{unsets} && " \
+        "rails _#{rails_version}_ new spec/sample " \
         '--database=sqlite3 ' \
         '--skip-git ' \
         '--skip-keeps ' \
@@ -55,18 +68,26 @@ namespace :spec do
         '--skip-sprockets ' \
         '--skip-system-test ' \
         '--skip-test ' \
-        '--skip-turbolinks'
+        '--skip-turbolinks ' \
+        '--skip-bundle' \
+        '"'
 
       File.open('spec/sample/Gemfile', 'a') do |file|
         file.write "gem 'captain_config', path: '../..'\n"
       end
 
-      shell 'sh -c "cd spec/sample && ' \
-        'bundle install && ' \
-        'rails generate captain_config && ' \
-        'rake db:migrate && ' \
-        'rm config.ru config/routes.rb' \
-        '"'
+      [
+        'bundle install --jobs=3 --retry=3',
+        'bundle exec rails generate captain_config',
+        'RAILS_ENV=development bundle exec rake db:migrate',
+        'rm config.ru config/routes.rb',
+      ].each do |command|
+        shell 'sh -c "' \
+          'cd spec/sample && ' \
+          "#{unsets} && " \
+          "#{command}" \
+          '"'
+      end
     end
 
     file controller do |task|

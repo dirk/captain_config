@@ -7,12 +7,32 @@ RSpec.describe 'Integration' do
     Dir.chdir('spec/sample') do
       shell 'sqlite3 db/development.sqlite3 "DELETE FROM captain_configs;"'
 
-      WaitForIt.new(
-        'bundle exec puma',
-        env: { BUNDLE_GEMFILE: nil },
-        wait_for: 'Listening on',
-      ) do
+      env = {
+        'RAILS_ENV' => 'development',
+      }
+      CaptainConfig::Shell::UNSET_VARIABLES.each do |variable|
+        env[variable] = nil
+      end
+
+      # Can use this again once the following PR is merged and a new gem
+      # version cut:
+      #   https://github.com/schneems/wait_for_it/pull/3
+      #
+      # WaitForIt.new(
+      #   'bundle exec puma',
+      #   env: env,
+      #   wait_for: 'Listening on',
+      # ) do
+      #   all.run
+      # end
+
+      begin
+        pid = Process.spawn env, 'bundle', 'exec', 'puma'
+        sleep 2
         all.run
+      ensure
+        Process.kill('TERM', pid)
+        Process.wait(pid)
       end
     end
   end
