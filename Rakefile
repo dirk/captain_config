@@ -41,12 +41,19 @@ namespace :spec do
       Rake::Task['spec:setup:sample:clean'].invoke
 
       unsets = "unset #{CaptainConfig::Shell::UNSET_VARIABLES.join(' ')}"
-
-      shell "sh -c \"#{unsets} && gem install rails\""
+      rails_version = '5.2.3'
 
       shell 'sh -c "' \
         "#{unsets} && " \
-        'bundle exec rails new spec/sample ' \
+        'gem install rails ' \
+        "--version #{rails_version} " \
+        "--no-rdoc " \
+        "--no-ri " \
+        '"'
+
+      shell 'sh -c "' \
+        "#{unsets} && " \
+        "rails _#{rails_version}_ new spec/sample " \
         '--database=sqlite3 ' \
         '--skip-git ' \
         '--skip-keeps ' \
