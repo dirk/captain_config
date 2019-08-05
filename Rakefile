@@ -40,7 +40,7 @@ namespace :spec do
     file gemfile do
       Rake::Task['spec:setup:sample:clean'].invoke
 
-      unsets = 'unset BUNDLE_GEMFILE && unset BUNDLE_PATH && unset GEM_PATH'
+      unsets = 'unset BUNDLE_GEMFILE && unset BUNDLE_PATH && unset GEM_HOME && unset GEM_PATH'
 
       shell 'sh -c "' \
         "#{unsets} && " \
@@ -59,7 +59,8 @@ namespace :spec do
         '--skip-sprockets ' \
         '--skip-system-test ' \
         '--skip-test ' \
-        '--skip-turbolinks' \
+        '--skip-turbolinks ' \
+        '--skip-bundle' \
         '"'
 
       File.open('spec/sample/Gemfile', 'a') do |file|
