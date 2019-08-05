@@ -14,6 +14,10 @@ RSpec.describe 'Integration' do
         env[variable] = nil
       end
 
+      # Can use this again once the following PR is merged and a new gem
+      # version cut:
+      #   https://github.com/schneems/wait_for_it/pull/3
+      #
       # WaitForIt.new(
       #   'bundle exec puma',
       #   env: env,
