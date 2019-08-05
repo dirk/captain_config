@@ -1,5 +1,5 @@
-RSpec.describe ConfigCaptain do
+RSpec.describe CaptainConfig do
   it 'has a version number' do
-    expect(ConfigCaptain::VERSION).not_to be nil
+    expect(CaptainConfig::VERSION).not_to be nil
   end
 end

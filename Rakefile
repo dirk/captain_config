@@ -10,7 +10,7 @@ task default: :spec
 
 namespace :spec do
   namespace :setup do
-    include ConfigCaptain::Shell
+    include CaptainConfig::Shell
 
     root = 'spec/sample'
 
@@ -58,12 +58,12 @@ namespace :spec do
         '--skip-turbolinks'
 
       File.open('spec/sample/Gemfile', 'a') do |file|
-        file.write "gem 'config_captain', path: '../..'\n"
+        file.write "gem 'captain_config', path: '../..'\n"
       end
 
       shell 'sh -c "cd spec/sample && ' \
         'bundle install && ' \
-        'rails generate config_captain && ' \
+        'rails generate captain_config && ' \
         'rake db:migrate && ' \
         'rm config.ru config/routes.rb' \
         '"'
@@ -89,7 +89,7 @@ namespace :spec do
 
     file initializer do |task|
       source = <<-RUBY
-        CONFIG = ConfigCaptain::Service.new do
+        CONFIG = CaptainConfig::Service.new do
           some_boolean :boolean, default: false
         end
       RUBY
@@ -100,7 +100,7 @@ namespace :spec do
       source = <<-RUBY
         require_relative 'config/environment'
 
-        use ConfigCaptain::PumaMiddleware
+        use CaptainConfig::PumaMiddleware
 
         run Rails.application
       RUBY

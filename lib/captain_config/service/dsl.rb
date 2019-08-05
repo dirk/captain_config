@@ -1,6 +1,6 @@
 require 'active_support/proxy_object'
 
-class ConfigCaptain::Service::DSL < ActiveSupport::ProxyObject
+class CaptainConfig::Service::DSL < ActiveSupport::ProxyObject
   attr_reader :service
 
   def initialize(service)
@@ -12,16 +12,16 @@ class ConfigCaptain::Service::DSL < ActiveSupport::ProxyObject
 
     model = case type
     when :boolean
-      ::ConfigCaptain::BooleanConfig
+      ::CaptainConfig::BooleanConfig
     when :integer
-      ::ConfigCaptain::IntegerConfig
+      ::CaptainConfig::IntegerConfig
     when :string
-      ::ConfigCaptain::StringConfig
+      ::CaptainConfig::StringConfig
     else
       raise ArgumentError.new("Unrecognized type: #{type.inspect}")
     end
 
-    entry = ::ConfigCaptain::ConfiguredEntry.new(key, model)
+    entry = ::CaptainConfig::ConfiguredEntry.new(key, model)
     if opts
       opts.each do |opt, value|
         entry.send("#{opt}=", value)

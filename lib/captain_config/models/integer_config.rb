@@ -1,6 +1,6 @@
-require 'config_captain/models/base_config'
+require 'captain_config/models/base_config'
 
-class ConfigCaptain::IntegerConfig < ConfigCaptain::BaseConfig
+class CaptainConfig::IntegerConfig < CaptainConfig::BaseConfig
   def value
     Integer(self.text)
   end

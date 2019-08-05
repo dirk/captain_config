@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe ConfigCaptain::Service do
+RSpec.describe CaptainConfig::Service do
   subject do
-    ConfigCaptain::Service.new load_after_initialize: false do
+    CaptainConfig::Service.new load_after_initialize: false do
       some_boolean :boolean, default: false
       some_integer :integer
       some_string :string
@@ -10,7 +10,7 @@ RSpec.describe ConfigCaptain::Service do
   end
 
   after do
-    ConfigCaptain::BaseConfig.delete_all
+    CaptainConfig::BaseConfig.delete_all
   end
 
   describe '#[]' do

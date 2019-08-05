@@ -1,4 +1,4 @@
-module ConfigCaptain::Shell
+module CaptainConfig::Shell
   def shell(command)
     system({ 'BUNDLE_GEMFILE' => nil }, command)
     if $?.exitstatus != 0
