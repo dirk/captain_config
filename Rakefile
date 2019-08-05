@@ -67,6 +67,7 @@ namespace :spec do
       end
 
       [
+        'printenv | sort',
         'bundle install',
         'bundle exec rails generate captain_config',
         'bundle exec rake db:migrate',
