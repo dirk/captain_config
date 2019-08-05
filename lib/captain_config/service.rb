@@ -86,7 +86,7 @@ class CaptainConfig::Service
         end
         record.value
       else
-        configured_entry.default_value
+        configured_entry.default_value.dup
       end
 
       new_configs[key] = value
