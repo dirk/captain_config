@@ -40,7 +40,11 @@ namespace :spec do
     file gemfile do
       Rake::Task['spec:setup:sample:clean'].invoke
 
-      shell 'bundle exec rails new spec/sample ' \
+      unsets = 'unset BUNDLE_GEMFILE && unset BUNDLE_PATH'
+
+      shell 'sh -c "' \
+        "#{unsets} && " \
+        'bundle exec rails new spec/sample ' \
         '--database=sqlite3 ' \
         '--skip-git ' \
         '--skip-keeps ' \
@@ -55,7 +59,8 @@ namespace :spec do
         '--skip-sprockets ' \
         '--skip-system-test ' \
         '--skip-test ' \
-        '--skip-turbolinks'
+        '--skip-turbolinks' \
+        '"'
 
       File.open('spec/sample/Gemfile', 'a') do |file|
         file.write "gem 'captain_config', path: '../..'\n"
@@ -69,8 +74,7 @@ namespace :spec do
       ].each do |command|
         shell 'sh -c "' \
           'cd spec/sample && ' \
-          'unset BUNDLE_GEMFILE && ' \
-          'unset BUNDLE_PATH && ' \
+          "#{unsets} && " \
           "#{command}" \
           '"'
       end
