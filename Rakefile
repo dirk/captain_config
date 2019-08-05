@@ -64,7 +64,7 @@ namespace :spec do
       shell 'sh -c "cd spec/sample && ' \
         'bundle install && ' \
         'rails generate captain_config && ' \
-        'rake db:migrate && ' \
+        'bin/rake db:migrate && ' \
         'rm config.ru config/routes.rb' \
         '"'
     end
