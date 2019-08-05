@@ -72,7 +72,7 @@ namespace :spec do
         'cat Gemfile',
         'bundle install --jobs=3 --retry=3',
         'bundle exec rails generate captain_config',
-        'bundle exec rake db:migrate',
+        'RAILS_ENV=development bundle exec rake db:migrate',
         'rm config.ru config/routes.rb',
       ].each do |command|
         shell 'sh -c "' \

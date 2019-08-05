@@ -9,7 +9,10 @@ RSpec.describe 'Integration' do
 
       WaitForIt.new(
         'bundle exec puma',
-        env: { BUNDLE_GEMFILE: nil },
+        env: {
+          BUNDLE_GEMFILE: nil,
+          RAILS_ENV: 'development',
+        },
         wait_for: 'Listening on',
       ) do
         all.run
