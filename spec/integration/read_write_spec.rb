@@ -8,21 +8,27 @@ RSpec.describe 'Integration' do
       shell 'sqlite3 db/development.sqlite3 "DELETE FROM captain_configs;"'
 
       env = {
-        BUNDLE_GEMFILE: nil,
-        RAILS_ENV: 'development',
+        'RAILS_ENV' => 'development',
       }
-      if ENV['CI'] == 'true'
-        env[:BUNDLE_PATH] = nil
-        env[:GEM_HOME] = nil
-        env[:GEM_PATH] = nil
+      CaptainConfig::Shell::UNSET_VARIABLES.each do |variable|
+        env[variable] = nil
       end
 
-      WaitForIt.new(
-        'bundle exec puma',
-        env: env,
-        wait_for: 'Listening on',
-      ) do
+      # WaitForIt.new(
+      #   'bundle exec puma',
+      #   env: env,
+      #   wait_for: 'Listening on',
+      # ) do
+      #   all.run
+      # end
+
+      begin
+        pid = Process.spawn env, 'bundle', 'exec', 'puma'
+        sleep 2
         all.run
+      ensure
+        Process.kill('TERM', pid)
+        Process.wait(pid)
       end
     end
   end
