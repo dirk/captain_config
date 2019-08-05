@@ -38,7 +38,7 @@ RSpec.configure do |config|
           'id' integer PRIMARY KEY AUTOINCREMENT NOT NULL,
           'type' varchar NOT NULL,
           'key' varchar NOT NULL,
-          'text' varchar,
+          'text' text,
           'created_at' datetime NOT NULL,
           'updated_at' datetime NOT NULL
         );
