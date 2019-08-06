@@ -14,25 +14,12 @@ RSpec.describe 'Integration' do
         env[variable] = nil
       end
 
-      # Can use this again once the following PR is merged and a new gem
-      # version cut:
-      #   https://github.com/schneems/wait_for_it/pull/3
-      #
-      # WaitForIt.new(
-      #   'bundle exec puma',
-      #   env: env,
-      #   wait_for: 'Listening on',
-      # ) do
-      #   all.run
-      # end
-
-      begin
-        pid = Process.spawn env, 'bundle', 'exec', 'puma'
-        sleep 2
+      WaitForIt.new(
+        'bundle exec puma',
+        env: env,
+        wait_for: 'Listening on',
+      ) do
         all.run
-      ensure
-        Process.kill('TERM', pid)
-        Process.wait(pid)
       end
     end
   end
