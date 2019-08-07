@@ -42,7 +42,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'sqlite3', '~> 1.3'
-  # Uncomment once the following PR has been merged and a new gem version cut:
-  #   https://github.com/schneems/wait_for_it/pull/3
-  # spec.add_development_dependency 'wait_for_it', '~> 0.1.2'
+  spec.add_development_dependency 'wait_for_it', '~> 0.2'
 end

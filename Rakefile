@@ -46,9 +46,7 @@ namespace :spec do
       shell 'sh -c "' \
         "#{unsets} && " \
         'gem install rails ' \
-        "--version #{rails_version} " \
-        "--no-rdoc " \
-        "--no-ri " \
+        "--version #{rails_version}" \
         '"'
 
       shell 'sh -c "' \
