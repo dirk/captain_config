@@ -10,6 +10,7 @@ module CaptainConfig
 
   autoload_under 'middlewares' do
     autoload :PumaMiddleware
+    autoload :SidekiqMiddlewareFactory
   end
 
   autoload_under 'models' do
