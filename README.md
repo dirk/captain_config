@@ -59,6 +59,20 @@ end
 
 ## Contributing
 
+Clone the repo and run `bundle install` to get started developing locally.
+
+There are integration specs which set up a sample Rails application and run tests against it. As that takes some time (more than a few seconds), there is a script to run just the non-integration specs:
+
+```sh
+./script/rspec-without-integration
+```
+
+Arguments are forwarded to RSpec, so if you want to run an individual spec file:
+
+```sh
+./script/rspec-without-integration spec/captain_config_spec.rb
+```
+
 Bug reports and pull requests are welcome on [the GitHub repository](https://github.com/dirk/captain_config).
 
 ## Code of Conduct
