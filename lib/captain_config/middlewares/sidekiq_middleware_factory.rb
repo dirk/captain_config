@@ -46,9 +46,9 @@ module CaptainConfig::SidekiqMiddlewareFactory
     end
 
     def call(_worker, _job, _queue)
-      yield
-
       self.class.load if self.class.needs_load?
+
+      yield
     end
   end
 end
