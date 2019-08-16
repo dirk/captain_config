@@ -20,7 +20,7 @@ bundle exec rails generate captain_config
 
 **Not on Rails?** Check out the [template](https://github.com/dirk/captain_config/blob/master/lib/generators/templates/create_captain_configs.rb.tt) for the ActiveRecord migration that would have been generated; that describes how this gem expects that table to look.
 
-Then—assuming you're using Rails—set up some configuration in your config:
+Then—assuming you're using Rails—set up some configuration in your `config/initializers`:
 
 ```rb
 # config/initializers/captain_config.rb
@@ -55,6 +55,23 @@ end
 <% if CONFIG[:new_feature_enabled] %>
   <%= link_to 'New Stuff!', new_feature_path %>
 <% end >
+```
+
+### Sidekiq
+
+There is a Sidekiq middleware to automatically reload configuration.
+
+```rb
+Sidekiq.configure_server do |config|
+  config.server_middleware do |chain|
+    chain.add CaptainConfig::SidekiqMiddlewareFactory.build
+
+    # By default it only reloads every 1 second. Use the `interval:` argument
+    # to change this frequency:
+    #
+    # chain.add CaptainConfig::SidekiqMiddlewareFactory.build(interval: 5.0)
+  end
+end
 ```
 
 ## Contributing
