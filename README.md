@@ -1,6 +1,6 @@
 # CaptainConfig
 
-Declarative, type-safe configuration for ActiveRecord-base applications. `CaptainConfig` makes it easy to add developer-friendly configuration to control an application's behavior.
+`CaptainConfig` makes it easy to add developer-friendly configuration to control your application's behavior.
 
 ## Getting Started
 
