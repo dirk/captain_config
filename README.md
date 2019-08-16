@@ -1,39 +1,60 @@
 # CaptainConfig
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/captain_config`. To experiment with that code, run `bin/console` for an interactive prompt.
+Declarative, type-safe configuration for ActiveRecord-base applications. `CaptainConfig` makes it easy to add developer-friendly configuration to control an application's behavior.
 
-TODO: Delete this and the text above, and describe your gem
+## Getting Started
 
-## Installation
+Add the gem to your application's Gemfile:
 
-Add this line to your application's Gemfile:
-
-```ruby
+```rb
 gem 'captain_config'
 ```
 
-And then execute:
+Then—assuming you're using Rails—set up some configuration in your config:
 
-    $ bundle
+```rb
+# config/initializers/captain_config.rb
+CONFIG = CaptainConfig::Service.new do
+  new_feature_enabled :boolean, default: false
+  important_user_points_threshold :integer, default: 9000
+end
+```
 
-Or install it yourself as:
+Add the Puma middleware so that the configuration is reloaded out-of-band in between requests:
 
-    $ gem install captain_config
+```rb
+# config.ru
+require_relative 'config/environment'
 
-## Usage
+use CaptainConfig::PumaMiddleware
 
-TODO: Write usage instructions here
+run Rails.application
+```
 
-## Development
+Now you can read the configuration anywhere! The configuration will be reloaded in between requests, so reading it in your application is a fast hash lookup.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```rb
+class User < Application
+  def met_threshold?
+    points >= CONFIG[:important_user_points_threshold]
+  end
+end
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```erb
+<% if CONFIG[:new_feature_enabled] %>
+  <%= link_to 'New Stuff!', new_feature_path %>
+<% end >
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/captain_config. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on [the GitHub repository](https://github.com/dirk/captain_config).
 
 ## Code of Conduct
 
-Everyone interacting in the CaptainConfig project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/captain_config/blob/master/CODE_OF_CONDUCT.md).
+This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct. Everyone interacting in the project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/dirk/captain_config/blob/master/CODE_OF_CONDUCT.md).
+
+## License
+
+Released under the Modified BSD license, see [LICENSE](LICENSE) for details.
