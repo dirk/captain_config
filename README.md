@@ -10,6 +10,14 @@ Add the gem to your application's Gemfile:
 gem 'captain_config'
 ```
 
+Run the generator to create the migration for the `captain_configs` table:
+
+```sh
+bundle exec rails generate captain_config
+```
+
+**Not on Rails?** Check out the [template](https://github.com/dirk/captain_config/blob/master/lib/generators/templates/create_captain_configs.rb.tt) for the ActiveRecord migration that would have been generated; that describes how this gem expects that table to look.
+
 Then—assuming you're using Rails—set up some configuration in your config:
 
 ```rb
