@@ -46,5 +46,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'sqlite3', '~> 1.3'
+  spec.add_development_dependency 'timecop', '~> 0.9'
   spec.add_development_dependency 'wait_for_it', '~> 0.2'
 end
