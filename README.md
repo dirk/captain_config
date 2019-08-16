@@ -1,5 +1,7 @@
 # CaptainConfig
 
+[![Build Status](https://travis-ci.org/dirk/captain_config.svg?branch=master)](https://travis-ci.org/dirk/captain_config)
+
 `CaptainConfig` makes it easy to add developer-friendly configuration to control your application's behavior.
 
 ## Getting Started
