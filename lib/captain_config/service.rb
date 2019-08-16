@@ -40,7 +40,7 @@ class CaptainConfig::Service
     configs.value.fetch key
   end
 
-  def set(key, new_value, coerce: false)
+  def set(key, new_value, coerce: true)
     assert_loaded!
 
     record = configured_entries.fetch(key).model.find_or_create_by!(key: key)

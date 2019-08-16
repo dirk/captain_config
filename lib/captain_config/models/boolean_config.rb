@@ -26,6 +26,10 @@ class CaptainConfig::BooleanConfig < CaptainConfig::BaseConfig
       true
     when 'false'
       false
+    when true
+      true
+    when false
+      false
     else
       raise ArgumentError.new("Cannot coerce value: #{value.inspect}")
     end
